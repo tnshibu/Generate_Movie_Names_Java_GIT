@@ -1,3 +1,4 @@
 input
 movie_names_all*
 movie_names_FILE_EXISTS*
+*.class

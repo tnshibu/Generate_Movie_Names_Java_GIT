@@ -100,6 +100,9 @@ public class Generate_Movie_Names {
         String line = null; //not declared within while loop
         while (( line = input.readLine()) != null){
           String[] split = line.split("\\|");
+          if(split.length != 2) {
+              continue;
+          }
           if(split != null) {
               line = split[0];
               String size = split[1];
