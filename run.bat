@@ -1,10 +1,5 @@
-call SET_JAVA_HOME.bat
-del Generate_Movie_Names.class
-del Check_File_Exists.class
-
-"%JAVA_HOME%\bin\javac" Check_File_Exists.java
-"%JAVA_HOME%\bin\javac" Generate_Movie_Names.java
-
-"%JAVA_HOME%\bin\java" -cp . -Xmx512m Generate_Movie_Names 
-"%JAVA_HOME%\bin\java" -cp . -Xmx512m Check_File_Exists    > movie_names_FILE_EXISTS.log
-rem PAUSE
+call SP.bat
+mvn clean install assembly:single
+"%JAVA_HOME%\bin\java" -cp target\Generate_Movie_Names-1.0.jar Generate_Movie_Names 
+"%JAVA_HOME%\bin\java" -cp target\Generate_Movie_Names-1.0.jar Check_File_Exists      %1  > movie_names_FILE_EXISTS.log
+PAUSE
