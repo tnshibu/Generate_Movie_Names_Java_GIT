@@ -2,9 +2,6 @@ import java.io.*;
 import java.util.*;
 import java.text.SimpleDateFormat;
 
-import java.io.*;
-import java.security.MessageDigest;
-
 /*
     Data structure is as follows
     A Map with key=fileSize and value=ArrayList of filenames
@@ -14,11 +11,16 @@ public class Generate_Movie_Names {
   private static List<String> filmFileList = new ArrayList<String>();
   private static List<String> filmNameList = new ArrayList<String>();
   private static List<String> exclusionList = new ArrayList<String>();
+  private static TeePrintStream tee = null;
   /******************************************************************************************/
   public static void main(String[] args) throws Exception {
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
     //;
-    System.setOut(new PrintStream(new FileOutputStream("movie_names_all_"+dateFormat.format(new Date())+".log")));
+    PrintStream fileWithDate = new PrintStream(new FileOutputStream("movie_names_"+dateFormat.format(new Date())+".log"));
+    PrintStream fileAll      = new PrintStream(new FileOutputStream("movie_names_all.log"));
+    
+    tee = new TeePrintStream(fileWithDate, fileAll);
+    //System.setOut(tee);
 	List<String> inputFilesList = new ArrayList<String>();
 	inputFilesList = FileUtil.getFileList("input");
 
@@ -26,7 +28,7 @@ public class Generate_Movie_Names {
 		ArrayList<String> fileList = readFileList(inputFilesList.get(x));
 		filmFileList.addAll(fileList);
 	}
-	System.out.println("Final size = "+filmFileList.size());
+	tee.println("Final size = "+filmFileList.size());
     for(int i=0;i<filmFileList.size();i++) {
 	  File fil = new File(filmFileList.get(i));
 	  String fileName = fil.getName();
@@ -86,14 +88,14 @@ public class Generate_Movie_Names {
 	Collections.sort(filmNameList, sc);
     for(int i=0;i<filmNameList.size();i++) {
 	  filmNameList.get(i);
-	  System.out.println(filmNameList.get(i));
+	  tee.println(filmNameList.get(i));
     }
-    System.out.println("REM   -------- program end");
+    tee.println("REM   -------- program end");
 	
   }
   /******************************************************************************************/
   public static ArrayList<String> readFileList(String fileName) throws Exception {
-	System.out.println("loading sob.txt - start");
+	tee.println("loading sob.txt - start");
     ArrayList<String> returnArray = new ArrayList<String>();
     try {
         BufferedReader input =  new BufferedReader(new FileReader(new File(fileName)));
@@ -117,7 +119,7 @@ public class Generate_Movie_Names {
       } catch (FileNotFoundException fnfe) {
 		  if (fileName.startsWith("input/E") || fileName.startsWith("input/F")) {
 			  //ignore error
-			  System.out.println("ignoring error. file not found :"+fileName);
+			  tee.println("ignoring error. file not found :"+fileName);
 		  } else {
 			  throw fnfe;
 		  }
@@ -125,7 +127,7 @@ public class Generate_Movie_Names {
       finally {
       //  input.close();
       }
-	System.out.println("loading sob.txt - end. size="+returnArray.size());
+	tee.println("loading sob.txt - end. size="+returnArray.size());
     return returnArray;
   }
   /******************************************************************************************/

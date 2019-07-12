@@ -16,7 +16,7 @@ public class Check_File_Exists {
   /******************************************************************************************/
   public static void main(String[] args) throws Exception {
 
-    List<String> fileList = readFileList("movie_names_all_2019-04-22.log");
+    List<String> fileList = readFileList("movie_names_all_2019-06-03-02-52-34.log");
 
     int blankLineNumber = 0;
     for(int i=0;i<fileList.size();i++) {
@@ -60,7 +60,4 @@ public class Check_File_Exists {
   }
   /******************************************************************************************/
   /******************************************************************************************/
-
 }
-
-
